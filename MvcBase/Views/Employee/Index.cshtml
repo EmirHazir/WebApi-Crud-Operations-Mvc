@@ -1,0 +1,79 @@
+﻿@model IEnumerable<MvcBase.Models.FakeModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a href="@Url.Action("AddOrEdit","Employee")" class="btn btn-xs btn-success">
+        <i class="fa-fa-plus"></i>Add a new
+    </a>
+</p>
+<table class="table table-striped">
+    <thead style="background-color:black;color:aliceblue;">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salary)
+            </td>
+
+            <td>
+
+                <a href="@Url.Action("AddOrEdit", "Employee", new {  id=item.EmployeeID  })" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                |
+                <a onclick="Delete(@item.EmployeeID)" class="btn btn-xs btn-danger"><i class="fa fa-pencil"></i> Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            var succesMessage = '@TempData["SuccessMessage"]'
+            if (succesMessage != '') {
+                alertify.success(succesMessage)
+            }
+        });
+
+        function Delete(id) {
+            alertify.confirm("WebApi Crud in Mvc", "Bu personeli silmek istediğinden emin misin?", function () {
+                window.location.href = '@Url.Action("Delete","Employee")/' + id;
+            }, null);
+        }
+    </script>
+
+
+}
